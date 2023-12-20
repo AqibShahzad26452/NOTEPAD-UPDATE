@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <title>Notepad</title>
+    <style>
+        .container{
+            border:2px solid green;
+            width:80%;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+
+        }
+        .sizes{
+            display: flex;
+            align-items: center;
+            gap:0.4rem;
+            cursor: pointer;
+        }
+        .size1{
+            width:50px;
+            height:50px;
+            border: 2px solid blue;
+            border-radius:50%;
+        }
+        .size2{
+            width:40px;
+            height:40px;
+            border: 2px solid brown;
+            border-radius:50%;
+        }
+        .size3{
+            width:30px;
+            height:30px;
+            border: 2px solid black;
+            border-radius:50%;
+        }
+        .size4{
+            width:20px;
+            height:20px;
+            border: 2px solid gray;
+            border-radius:50%;
+        }
+        .colors{
+        
+            display:flex;
+            align-items: center;
+            gap:0.4rem;
+            cursor: pointer;
+
+        }
+        
+        .colorbrown{
+            width:40px;
+            height:40px;
+            background: brown;
+            border-radius:50%;
+        }
+        .colorred{
+            width:40px;
+            height:40px;
+            background: red;
+            border-radius:50%;
+        }
+        .coloryellow{
+            width:40px;
+            height:40px;
+            background: yellow;
+            border-radius:50%;
+        }
+        .paint{
+            height:70vh;
+            border:2px solid gray;
+            margin-top: 1rem;
+            position: relative;
+        }
+        .drawing{
+            width:20px;
+            height:20px;
+            background: red;
+            position: absolute;
+        }
+        </style>
+</head>
+
+<body>
+    <div class="container mt-2">
+        <div class="sizes">
+            <div class="size1"></div>
+            <div class="size2"></div>
+            <div class="size3"></div>
+            <div class="size4"></div>
+        </div>
+        <div class="colors">
+            <div class="colorbrown"></div>
+            <div class="colorred"></div>
+            <div class="coloryellow"></div>
+            <input type="color" class="color-picker">
+        </div>
+    </div>
+    <div class="container paint overflow-hidden">
+
+
+    </div>
+    
+
+
+
+    <script>
+        let size50=document.querySelector('.size1')
+        let size40=document.querySelector('.size2')
+        let size30=document.querySelector('.size3')
+        let size20=document.querySelector('.size4')
+        let screen=document.querySelector('.paint')
+        let brown=document.querySelector('.colorbrown')
+        let red=document.querySelector('.colorred')
+        let yellow=document.querySelector('.coloryellow')
+        let picker=document.querySelector('.color-picker')
+        // console.log(size50,size40,size30,size20)
+
+        let isbrown=false;
+        let isred=false;
+        let isyellow=false;
+        let ispicker=false;
+        brown.addEventListener('click',()=>{
+            isbrown=true
+            isred=false
+            isyellow=false
+            ispicker=false;
+        })
+        red.addEventListener('click',()=>{
+            isred=true
+            isbrown=false
+            isyellow=false
+            ispicker=false;
+        })
+        yellow.addEventListener('click',()=>{
+            isbrown=false
+            isred=false
+            isyellow=true
+            ispicker=false;
+        })
+        picker.addEventListener('input',()=>{
+            ispicker=true;
+            isbrown=false
+            isred=false
+            isyellow=false
+        })
+        let line;
+        let is50 =false
+        let is40=false
+        let is30=false
+        let is20=false;
+
+        console.log(is50,is40,is30,is20)
+        size50.addEventListener('click',()=>{
+            is50=true;
+            is40=false;
+            is30=false;
+            is20=false;
+            console.log(is50,is40,is30,is20)
+            
+        })
+        size40.addEventListener('click',()=>{
+            is40=true;
+            is50=false;
+            is30=false;
+            is20=false
+            console.log(is50,is40,is30,is20)
+        })
+        size30.addEventListener('click',()=>{
+            is30=true;
+            is50=false;
+            is40=false;
+            is20=false
+            console.log(is50,is40,is30,is20)
+            
+        })
+        size20.addEventListener('click',()=>{
+            is20=true;
+            is50=false;
+            is30=false;
+            is40=false
+            console.log(is50,is40,is30,is20)
+        })
+
+        let isclicked=false;
+        screen.addEventListener('mousedown',()=>{
+            isclicked=true;
+
+        })
+        screen.addEventListener('mouseup',()=>{
+            isclicked=false
+        })
+
+        const create=(e)=>{
+            let x=e.clientX;
+            let y=e.clientY;
+            let line=document.createElement('div');
+            screen.appendChild(line)
+            line.classList.add('drawing')
+            line.style.top=`${y-90}px`
+            line.style.left=`${x-132}px`
+            if(is50){
+                line.style.width='50px';
+                line.style.height='50px';
+            }else if(is40){
+                line.style.width='40px'
+                line.style.height='40px'
+            }
+            else if(is30){
+                line.style.width='30px'
+                line.style.height='30px'
+            }
+            else if(is20){
+                line.style.width='20px'
+                line.style.height='20px'
+            }
+            if(isbrown){
+                line.style.background='brown'
+            }
+            else if(isred){
+                line.style.background='red'
+            }
+            else if(isyellow){
+                line.style.background='yellow'
+            }
+            else if(ispicker){
+            line.style.background=picker.value
+            }
+            console.log(picker.value)
+            }
+        
+        
+        screen.addEventListener('mousemove',(e)=>{
+            if(isclicked){
+                create(e);
+            }
+            // console.log(e)
+            
+        })
+
+    </script>
+
+</body>
+</html>
